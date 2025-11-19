@@ -26,6 +26,15 @@ import java.util.List;
 public class BeerController {
     private final BeerService beerService;
 
+    @DeleteMapping(value="{beerId}")
+    public ResponseEntity deleteById(@PathVariable("beerId") UUID id)
+    {
+
+        beerService.deleteBeerById(id);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     //@PutMapping("{beerId}")
     @PutMapping(value = "{beerId}")
     public ResponseEntity updateById(@PathVariable("beerId") UUID id, @RequestBody Beer beer)

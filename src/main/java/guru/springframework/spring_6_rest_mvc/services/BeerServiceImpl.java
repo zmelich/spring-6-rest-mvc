@@ -113,4 +113,10 @@ public class BeerServiceImpl implements BeerService {
         //We don't need this line actually - the app is still working without it
         //beerMap.put(existingBeer.getId(),existingBeer);
     }
+
+    @Override
+    public void deleteBeerById(UUID beerId) {
+        beerMap.remove(beerId);
+
+    }
 }
