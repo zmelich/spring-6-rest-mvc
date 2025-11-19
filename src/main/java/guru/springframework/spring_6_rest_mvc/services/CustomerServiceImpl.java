@@ -5,6 +5,7 @@ package guru.springframework.spring_6_rest_mvc.services;
 Created by Zsolt Melich (BT - IVR team)
 */
 
+import guru.springframework.spring_6_rest_mvc.model.Beer;
 import guru.springframework.spring_6_rest_mvc.model.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -81,6 +82,17 @@ public class CustomerServiceImpl implements CustomerService {
         customerMap.put(saveCustomer.getId(),saveCustomer);
 
         return saveCustomer;
+    }
+
+    @Override
+    public void updateCustomerById(UUID customerId, Customer customer) {
+        Customer existingCustomer = customerMap.get(customerId);
+
+        existingCustomer.setCustomerName(customer.getCustomerName());
+        existingCustomer.setLastModifiedDate(LocalDateTime.now());
+
+        //We don't need this line actually - the app is still working without it
+        //customerMap.put(existingCustomer.getId(),existingCustomer);
     }
 
 

@@ -110,6 +110,7 @@ public class BeerServiceImpl implements BeerService {
         //existingBeer.setVersion(beer.getVersion()+1);
         existingBeer.setUpdateDate(LocalDateTime.now());
 
-        beerMap.put(existingBeer.getId(),existingBeer);
+        //We don't need this line actually - the app is still working without it
+        //beerMap.put(existingBeer.getId(),existingBeer);
     }
 }
