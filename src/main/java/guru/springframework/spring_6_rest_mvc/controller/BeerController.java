@@ -9,11 +9,10 @@ import guru.springframework.spring_6_rest_mvc.model.Beer;
 import guru.springframework.spring_6_rest_mvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 import java.util.List;
@@ -25,6 +24,16 @@ import java.util.List;
 @RestController
 public class BeerController {
     private final BeerService beerService;
+
+    @PostMapping
+    //@RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity handlePost(@RequestBody Beer beer){
+
+        Beer saveBeer = beerService.saveNewBeer(beer);
+
+        return new ResponseEntity((HttpStatus.CREATED));
+
+    }
 
     //@RequestMapping("/api/v1/beer")
     @RequestMapping(method = RequestMethod.GET)
