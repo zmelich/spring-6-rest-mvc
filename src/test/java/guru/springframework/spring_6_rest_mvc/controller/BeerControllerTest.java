@@ -46,7 +46,7 @@ class BeerControllerTest {
         mockMVC.perform(get("/api/v1/beer/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
       //  System.out.println(beerController.getBeerById(UUID.randomUUID()));
 
