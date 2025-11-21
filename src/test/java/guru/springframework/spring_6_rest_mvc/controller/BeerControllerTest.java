@@ -54,7 +54,7 @@ class BeerControllerTest {
 
 
     @Test
-    void getBeerById() throws Exception{
+    void testGetBeerById() throws Exception{
         Beer testBeer = beerServiceImpl.listBeers().get(0);
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
