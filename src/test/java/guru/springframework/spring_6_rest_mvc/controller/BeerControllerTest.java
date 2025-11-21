@@ -1,5 +1,7 @@
 package guru.springframework.spring_6_rest_mvc.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.spring_6_rest_mvc.controller.BeerController;
 import guru.springframework.spring_6_rest_mvc.model.Beer;
 import guru.springframework.spring_6_rest_mvc.services.BeerService;
@@ -35,11 +37,25 @@ class BeerControllerTest {
     @Autowired
     MockMvc mockMVC;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     //@MockBean -- deprecated
     @MockitoBean
     BeerService beerService;
 
     BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
+
+    @Test
+    void testCreateNewBeer() throws JsonProcessingException {
+        //ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.findAndRegisterModules();
+
+        Beer beer = beerServiceImpl.listBeers().get(0);
+
+        //This is the least preferred way
+        System.out.println(objectMapper.writeValueAsString(beer));
+    }
 
     @Test
     void testListBeers() throws Exception {
