@@ -9,6 +9,8 @@ import guru.springframework.spring_6_rest_mvc.services.CustomerService;
 import guru.springframework.spring_6_rest_mvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -24,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 /*
 Created by Zsolt Melich (BT - IVR team)
 */
@@ -49,6 +52,24 @@ public class CustomerControllerTest {
         customerServiceImpl = new CustomerServiceImpl();
     }
 
+    @Captor
+    ArgumentCaptor<UUID> customerIdArgCaptor;
+
+    @Test
+    void testDeleteExistingCustomer() throws Exception{
+
+        Customer customer = customerServiceImpl.listCustomers().get(0);
+
+        mockMVC.perform(delete("/api/v1/customer/"+customer.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        //ArgumentCaptor<UUID> customerIdArgCaptor = ArgumentCaptor.forClass(UUID.class);
+        verify(customerService).deleteCustomerById(customerIdArgCaptor.capture());
+
+        assertThat(customer.getId()).isEqualTo(customerIdArgCaptor.getValue());
+    }
+
     @Test
     void testUpdateExistingCustomer() throws Exception{
 
@@ -60,7 +81,11 @@ public class CustomerControllerTest {
                         .content(objectMapper.writeValueAsString(customer)))
                 .andExpect(status().isNoContent());
 
-        verify(customerService).updateCustomerById(any(UUID.class),any(Customer.class));
+        //verify(customerService).updateCustomerById(any(UUID.class),any(Customer.class));
+
+        verify(customerService).updateCustomerById(customerIdArgCaptor.capture(),any(Customer.class));
+
+        assertThat(customer.getId()).isEqualTo(customerIdArgCaptor.getValue());
 
     }
 
