@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 //@SpringBootTest
@@ -66,7 +67,8 @@ class BeerControllerTest {
     @Test
     void getBeersByIdNotFound() throws Exception{
 
-        given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+        //given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMVC.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
@@ -161,7 +163,8 @@ class BeerControllerTest {
     void testGetBeerById() throws Exception{
         Beer testBeer = beerServiceImpl.listBeers().get(0);
 
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+        //given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+        given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
         //mockMVC.perform(get(BeerController.BEER_PATH+"/" + testBeer.getId())
         mockMVC.perform(get(BeerController.BEER_PATH_ID,testBeer.getId())

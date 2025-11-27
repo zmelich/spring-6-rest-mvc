@@ -4,12 +4,14 @@ import guru.springframework.spring_6_rest_mvc.model.Customer;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 public interface CustomerService {
 
     List<Customer> listCustomers();
 
-    Customer getCustomerById(UUID id);
+    //Customer getCustomerById(UUID id);
+    Optional<Customer> getCustomerById(UUID id);
 
     Customer saveNewCustomer(Customer customer);
 

@@ -84,7 +84,9 @@ public class CustomerController {
     public Customer getCustomerById(@PathVariable("customerId") UUID id){
         log.debug("Get Customer by Id - In controller");
 
-        return customerService.getCustomerById(id);
+        //return customerService.getCustomerById(id);
+        return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
+
 
 }

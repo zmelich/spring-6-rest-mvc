@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
@@ -64,7 +65,8 @@ public class CustomerControllerTest {
     @Test
     void getCustomerByIdNotFound() throws Exception{
 
-        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+        //given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+        given(customerService.getCustomerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMVC.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
@@ -163,7 +165,8 @@ public class CustomerControllerTest {
     void testGetCustomerById() throws Exception{
         Customer testCustomer = customerServiceImpl.listCustomers().get(0);
 
-        given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
+        //given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
+        given(customerService.getCustomerById(testCustomer.getId())).willReturn(Optional.of(testCustomer));
 
         //mockMVC.perform(get(CustomerController.CUSTOMER_PATH+"/" + testCustomer.getId())
         mockMVC.perform(get(CustomerController.CUSTOMER_PATH_ID, testCustomer.getId())
