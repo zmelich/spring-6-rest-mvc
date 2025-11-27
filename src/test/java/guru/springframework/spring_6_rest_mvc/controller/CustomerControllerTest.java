@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
@@ -55,6 +57,31 @@ public class CustomerControllerTest {
     @Captor
     ArgumentCaptor<UUID> customerIdArgCaptor;
 
+    @Captor
+    ArgumentCaptor<Customer> customerObjectCaptor;
+
+    @Test
+    void testPatchExistingCustomer() throws Exception{
+
+        Customer customer = customerServiceImpl.listCustomers().get(0);
+
+        Map<String,Object> customerMap = new HashMap<>();
+        customerMap.put("customerName","New Customer Name");
+
+        mockMVC.perform(patch("/api/v1/customer/"+customer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerMap)))
+                .andExpect(status().isNoContent());
+
+        verify(customerService).patchCustomerById(customerIdArgCaptor.capture(),customerObjectCaptor.capture());
+
+        assertThat(customer.getId()).isEqualTo(customerIdArgCaptor.getValue());
+        assertThat(customerMap.get("customerName")).isEqualTo(customerObjectCaptor.getValue().getCustomerName());
+
+
+    }
+
     @Test
     void testDeleteExistingCustomer() throws Exception{
 
@@ -82,8 +109,8 @@ public class CustomerControllerTest {
                 .andExpect(status().isNoContent());
 
         //verify(customerService).updateCustomerById(any(UUID.class),any(Customer.class));
-
-        verify(customerService).updateCustomerById(customerIdArgCaptor.capture(),any(Customer.class));
+        //verify(customerService).updateCustomerById(customerIdArgCaptor.capture(),any(Customer.class));
+        verify(customerService).updateCustomerById(customerIdArgCaptor.capture(),customerObjectCaptor.capture());
 
         assertThat(customer.getId()).isEqualTo(customerIdArgCaptor.getValue());
 
