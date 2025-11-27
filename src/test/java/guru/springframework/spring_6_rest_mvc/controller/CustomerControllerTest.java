@@ -68,7 +68,8 @@ public class CustomerControllerTest {
         Map<String,Object> customerMap = new HashMap<>();
         customerMap.put("customerName","New Customer Name");
 
-        mockMVC.perform(patch(CustomerController.CUSTOMER_PATH+"/"+customer.getId())
+        //mockMVC.perform(patch(CustomerController.CUSTOMER_PATH+"/"+customer.getId())
+        mockMVC.perform(patch(CustomerController.CUSTOMER_PATH_ID, customer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerMap)))
@@ -87,7 +88,8 @@ public class CustomerControllerTest {
 
         Customer customer = customerServiceImpl.listCustomers().get(0);
 
-        mockMVC.perform(delete(CustomerController.CUSTOMER_PATH+"/"+customer.getId())
+        //mockMVC.perform(delete(CustomerController.CUSTOMER_PATH+"/"+customer.getId())
+        mockMVC.perform(delete(CustomerController.CUSTOMER_PATH_ID, customer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -102,7 +104,8 @@ public class CustomerControllerTest {
 
         Customer customer = customerServiceImpl.listCustomers().get(0);
 
-        mockMVC.perform(put(CustomerController.CUSTOMER_PATH+"/"+ customer.getId())
+        //mockMVC.perform(put(CustomerController.CUSTOMER_PATH+"/"+ customer.getId())
+        mockMVC.perform(put(CustomerController.CUSTOMER_PATH_ID, customer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customer)))
@@ -151,7 +154,8 @@ public class CustomerControllerTest {
 
         given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
 
-        mockMVC.perform(get(CustomerController.CUSTOMER_PATH+"/" + testCustomer.getId())
+        //mockMVC.perform(get(CustomerController.CUSTOMER_PATH+"/" + testCustomer.getId())
+        mockMVC.perform(get(CustomerController.CUSTOMER_PATH_ID, testCustomer.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
