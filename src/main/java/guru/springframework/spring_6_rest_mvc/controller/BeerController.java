@@ -89,4 +89,10 @@ public class BeerController {
         return beerService.getBeerById(id);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity handleNotFoundException()
+    {
+        return ResponseEntity.notFound().build();
+    }
+
 }
