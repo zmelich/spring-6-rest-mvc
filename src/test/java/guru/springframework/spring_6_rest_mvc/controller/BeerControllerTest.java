@@ -9,6 +9,7 @@ import guru.springframework.spring_6_rest_mvc.services.BeerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 //@SpringBootTest
@@ -49,9 +52,36 @@ class BeerControllerTest {
     //BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
     BeerServiceImpl beerServiceImpl ;
 
+    @Captor
+    ArgumentCaptor<UUID> beerIdArgCaptor;
+
+    @Captor
+    ArgumentCaptor<Beer> beerObjectCaptor;
+
     @BeforeEach
     void setUp(){
         beerServiceImpl = new BeerServiceImpl();
+    }
+
+    @Test
+    void testPatchBeer() throws Exception
+    {
+        Beer beer = beerServiceImpl.listBeers().get(0);
+
+        Map<String, Object> beerMap = new HashMap<>();
+        beerMap.put("beerName","New Beer Name");
+
+        mockMVC.perform(patch("/api/v1/beer/"+beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerMap)))
+                .andExpect(status().isNoContent());
+
+        verify(beerService).patchBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        assertThat(beer.getId()).isEqualTo(beerIdArgCaptor.getValue());
+        assertThat(beerMap.get("beerName")).isEqualTo(beerObjectCaptor.getValue().getBeerName());
+
     }
 
     @Test
@@ -63,10 +93,11 @@ class BeerControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
-        verify(beerService).deleteBeerById(uuidArgumentCaptor.capture());
+        //ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
+        // verify(beerService).deleteBeerById(uuidArgumentCaptor.capture());
 
-        assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+        verify(beerService).deleteBeerById(beerIdArgCaptor.capture());
+        assertThat(beer.getId()).isEqualTo(beerIdArgCaptor.getValue());
     }
 
 
@@ -80,7 +111,8 @@ class BeerControllerTest {
                 .content(objectMapper.writeValueAsString(beer)))
                 .andExpect(status().isNoContent());
 
-        verify(beerService).updateBeerById(any(UUID.class),any(Beer.class));
+        //verify(beerService).updateBeerById(any(UUID.class),any(Beer.class));
+        verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
 
     }
 
