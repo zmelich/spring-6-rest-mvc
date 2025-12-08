@@ -1,4 +1,4 @@
-package guru.springframework.spring_6_rest_mvc.controller;
+package guru.springframework.spring_7_rest_mvc.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

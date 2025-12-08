@@ -1,6 +1,6 @@
-package guru.springframework.spring_6_rest_mvc.services;
+package guru.springframework.spring_7_rest_mvc.services;
 
-import guru.springframework.spring_6_rest_mvc.model.Beer;
+import guru.springframework.spring_7_rest_mvc.model.Beer;
 
 import java.util.List;
 import java.util.Optional;

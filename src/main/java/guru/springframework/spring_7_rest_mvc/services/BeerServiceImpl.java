@@ -1,12 +1,12 @@
-package guru.springframework.spring_6_rest_mvc.services;
+package guru.springframework.spring_7_rest_mvc.services;
 
 
 /*
 Created by Zsolt Melich (BT - IVR team)
 */
 
-import guru.springframework.spring_6_rest_mvc.model.Beer;
-import guru.springframework.spring_6_rest_mvc.model.BeerStyle;
+import guru.springframework.spring_7_rest_mvc.model.Beer;
+import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

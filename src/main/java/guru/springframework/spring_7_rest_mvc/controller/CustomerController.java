@@ -1,14 +1,12 @@
-package guru.springframework.spring_6_rest_mvc.controller;
+package guru.springframework.spring_7_rest_mvc.controller;
 
 
 /*
 Created by Zsolt Melich (BT - IVR team)
 */
 
-import guru.springframework.spring_6_rest_mvc.model.Beer;
-import guru.springframework.spring_6_rest_mvc.model.Customer;
-import guru.springframework.spring_6_rest_mvc.services.CustomerService;
-import lombok.AllArgsConstructor;
+import guru.springframework.spring_7_rest_mvc.model.Customer;
+import guru.springframework.spring_7_rest_mvc.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

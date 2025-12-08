@@ -1,18 +1,26 @@
-package guru.springframework.spring_6_rest_mvc.controller;
+package guru.springframework.spring_7_rest_mvc.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import guru.springframework.spring_6_rest_mvc.model.Beer;
-import guru.springframework.spring_6_rest_mvc.model.Customer;
-import guru.springframework.spring_6_rest_mvc.services.BeerService;
-import guru.springframework.spring_6_rest_mvc.services.CustomerService;
-import guru.springframework.spring_6_rest_mvc.services.CustomerServiceImpl;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//Reimporting ObjectMapper
+import tools.jackson.databind.ObjectMapper;
+
+import guru.springframework.spring_7_rest_mvc.model.Customer;
+import guru.springframework.spring_7_rest_mvc.services.CustomerService;
+import guru.springframework.spring_7_rest_mvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
+//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+//Reimport WebMvcTest
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+
+
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,7 +42,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 Created by Zsolt Melich (BT - IVR team)
 */
 
+//@ExtendWith added for newer version of Spring Boot. Without that intelliJ would not do things like autocomplete for Mockito
 @WebMvcTest(CustomerController.class)
+@ExtendWith(MockitoExtension.class)
 public class CustomerControllerTest {
 
     @Autowired

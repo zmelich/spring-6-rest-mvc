@@ -1,12 +1,11 @@
-package guru.springframework.spring_6_rest_mvc.services;
+package guru.springframework.spring_7_rest_mvc.services;
 
 
 /*
 Created by Zsolt Melich (BT - IVR team)
 */
 
-import guru.springframework.spring_6_rest_mvc.model.Beer;
-import guru.springframework.spring_6_rest_mvc.model.Customer;
+import guru.springframework.spring_7_rest_mvc.model.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .id(UUID.randomUUID())
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         Customer customer2 = Customer.builder()
@@ -36,7 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .id(UUID.randomUUID())
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         Customer customer3 = Customer.builder()
@@ -44,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .id(UUID.randomUUID())
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(customer1.getId(),customer1);
@@ -78,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .version(1)
                 .customerName(customer.getCustomerName())
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(saveCustomer.getId(),saveCustomer);
@@ -91,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existingCustomer = customerMap.get(customerId);
 
         existingCustomer.setCustomerName(customer.getCustomerName());
-        existingCustomer.setLastModifiedDate(LocalDateTime.now());
+        existingCustomer.setUpdateDate(LocalDateTime.now());
 
         //We don't need this line actually - the app is still working without it
         //customerMap.put(existingCustomer.getId(),existingCustomer);

@@ -1,4 +1,4 @@
-package guru.springframework.spring_6_rest_mvc.model;
+package guru.springframework.spring_7_rest_mvc.model;
 
 
 /*
