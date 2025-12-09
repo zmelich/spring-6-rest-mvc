@@ -1,7 +1,10 @@
 package guru.springframework.spring_7_rest_mvc.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 
@@ -22,6 +25,9 @@ Created by Zsolt Melich (BT - IVR team)
 public class Customer {
 
     @Id
+    @GeneratedValue(generator = "UUID")
+    @UuidGenerator
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
 
     @Version
