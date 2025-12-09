@@ -19,19 +19,20 @@ import java.util.UUID;
 //@JsonDeserialize
 //@JsonProperty()
 
-@JsonDeserialize(builder = CustomerDTO.CustomerBuilder.class)
+@JsonDeserialize(builder = CustomerDTO.CustomerDTOBuilder.class)
 @Builder
 @Data
 public class CustomerDTO {
 
-    @JsonProperty("customerName")
-    private String customerName;
-
     @JsonProperty("id")
     private UUID id;
 
+    @JsonProperty("customerName")
+    private String customerName;
+
     @JsonProperty("version")
     private Integer version;
+
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
 }

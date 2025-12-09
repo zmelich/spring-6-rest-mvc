@@ -19,7 +19,7 @@ import java.util.UUID;
 //@JsonDeserialize
 //@JsonProperty()
 
-@JsonDeserialize(builder = BeerDTO.BeerBuilder.class)
+@JsonDeserialize(builder = BeerDTO.BeerDTOBuilder.class)
 @Builder
 @Data
 public class BeerDTO {
