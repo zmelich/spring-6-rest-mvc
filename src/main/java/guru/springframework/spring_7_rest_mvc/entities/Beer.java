@@ -6,13 +6,10 @@ Created by Zsolt Melich (BT - IVR team)
 */
 
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
