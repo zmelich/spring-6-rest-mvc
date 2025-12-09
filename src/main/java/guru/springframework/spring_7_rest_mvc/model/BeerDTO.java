@@ -11,7 +11,7 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,19 +19,34 @@ import java.util.UUID;
 //@JsonDeserialize
 //@JsonProperty()
 
-@JsonDeserialize(builder = Customer.CustomerBuilder.class)
+@JsonDeserialize(builder = BeerDTO.BeerBuilder.class)
 @Builder
 @Data
-public class Customer {
-
-    @JsonProperty("customerName")
-    private String customerName;
+public class BeerDTO {
 
     @JsonProperty("id")
     private UUID id;
 
     @JsonProperty("version")
     private Integer version;
+
+    @JsonProperty("beerName")
+    private String beerName;
+
+    @JsonProperty("beerStyle")
+    private BeerStyle beerStyle;
+
+    @JsonProperty("upc")
+    private String upc;
+
+    @JsonProperty("quantityOnHand")
+    private Integer quantityOnHand;
+
+    @JsonProperty("price")
+    private BigDecimal price;
+
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
+
+
 }

@@ -5,7 +5,7 @@ package guru.springframework.spring_7_rest_mvc.controller;
 Created by Zsolt Melich (BT - IVR team)
 */
 
-import guru.springframework.spring_7_rest_mvc.model.Customer;
+import guru.springframework.spring_7_rest_mvc.model.CustomerDTO;
 import guru.springframework.spring_7_rest_mvc.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class CustomerController {
 
     //@PatchMapping(value="{customerId}")
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateCustomerPatchById(@PathVariable("customerId") UUID id, @RequestBody Customer customer){
+    public ResponseEntity updateCustomerPatchById(@PathVariable("customerId") UUID id, @RequestBody CustomerDTO customer){
 
         customerService.patchCustomerById(id, customer);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -50,7 +50,7 @@ public class CustomerController {
     //@PutMapping("{customerId}")
     //@PutMapping(value = "{customerId}")
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateById(@PathVariable("customerId") UUID id, @RequestBody Customer customer)
+    public ResponseEntity updateById(@PathVariable("customerId") UUID id, @RequestBody CustomerDTO customer)
     {
         customerService.updateCustomerById(id,customer);
 
@@ -58,9 +58,9 @@ public class CustomerController {
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity handlePost(@RequestBody Customer customer){
+    public ResponseEntity handlePost(@RequestBody CustomerDTO customer){
 
-        Customer savedCustomer = customerService.saveNewCustomer(customer);
+        CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location",CUSTOMER_PATH+"/"+savedCustomer.getId().toString());
@@ -72,14 +72,14 @@ public class CustomerController {
 
     //@RequestMapping(method = RequestMethod.GET)
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers()
+    public List<CustomerDTO> listCustomers()
     {
         return customerService.listCustomers();
     }
 
     //@RequestMapping(value = "{customerId}", method = RequestMethod.GET)
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getCustomerById(@PathVariable("customerId") UUID id){
+    public CustomerDTO getCustomerById(@PathVariable("customerId") UUID id){
         log.debug("Get Customer by Id - In controller");
 
         //return customerService.getCustomerById(id);
