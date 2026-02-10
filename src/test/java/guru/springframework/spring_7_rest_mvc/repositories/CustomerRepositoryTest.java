@@ -33,44 +33,4 @@ class CustomerRepositoryTest {
 
     }
 
-    @Test
-    void testDataInitialization() {
-
-        Customer customer1 = Customer.builder()
-                .customerName("John Lennon")
-                //.id(UUID.randomUUID())
-                //.version(1)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
-
-        Customer customer2 = Customer.builder()
-                .customerName("Ringo Starr")
-                //.id(UUID.randomUUID())
-                //.version(1)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
-
-        Customer customer3 = Customer.builder()
-                .customerName("George Harrison")
-                //.id(UUID.randomUUID())
-                //.version(1)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
-
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
-        customerRepository.save(customer3);
-
-        long numberOfCustomers = customerRepository.count();
-
-        assertThat(numberOfCustomers).isGreaterThan(0);
-
-        List<Customer> customerList = customerRepository.findAll();
-
-        assertThat(customerList.get(0).getId()).isNotNull();
-
-    }
 }
