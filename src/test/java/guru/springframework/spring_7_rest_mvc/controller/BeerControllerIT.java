@@ -33,6 +33,14 @@ class BeerControllerIT {
     BeerMapper beerMapper;
 
     @Test
+    void testUpdateBeerByIdNotFound()
+    {
+        /*Here it is enough to pass an empty BeerDTO object.*/
+        assertThrows(NotFoundException.class, () -> beerController.updateById(UUID.randomUUID(), BeerDTO.builder().build()));
+
+    }
+
+    @Test
     void testUpdateBeerById()
     {
         Beer beer = beerRepository.findAll().getFirst();
