@@ -1,6 +1,7 @@
 package guru.springframework.spring_7_rest_mvc.controller;
 
 import guru.springframework.spring_7_rest_mvc.entities.Beer;
+import guru.springframework.spring_7_rest_mvc.mappers.BeerMapper;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import guru.springframework.spring_7_rest_mvc.repositories.BeerRepository;
@@ -28,6 +29,28 @@ class BeerControllerIT {
     @Autowired
     BeerRepository beerRepository;
 
+    @Autowired
+    BeerMapper beerMapper;
+
+    @Test
+    void testUpdateBeerById()
+    {
+        Beer beer = beerRepository.findAll().getFirst();
+        BeerDTO beerDto = beerMapper.beerToBeerDto(beer);
+
+        beerDto.setId(null);
+        beerDto.setVersion(null);
+        final String beerName= "Updated Beer Name";
+        beerDto.setBeerName(beerName);
+
+        ResponseEntity responseEntity = beerController.updateById(beer.getId(),beerDto);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Beer updatedBeer = beerRepository.findById(beer.getId()).get();
+        assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
+
+    }
+
     @Transactional
     @Rollback
     @Test
@@ -52,7 +75,6 @@ class BeerControllerIT {
 
         Beer beer = beerRepository.findById(savedUUID).get();
         assertThat(beer).isNotNull();
-
     }
 
 
