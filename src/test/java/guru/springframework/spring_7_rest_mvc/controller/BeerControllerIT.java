@@ -2,10 +2,13 @@ package guru.springframework.spring_7_rest_mvc.controller;
 
 import guru.springframework.spring_7_rest_mvc.entities.Beer;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
+import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import guru.springframework.spring_7_rest_mvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
@@ -24,6 +27,34 @@ class BeerControllerIT {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Transactional
+    @Rollback
+    @Test
+    void testSaveNewBeer() {
+        BeerDTO beerDTO = BeerDTO.builder()
+                .beerName("Borsodi IPA")
+                .beerStyle(BeerStyle.IPA)
+                .build();
+
+        ResponseEntity responseEntity = beerController.handlePost(beerDTO);
+
+        assertThat(responseEntity.getStatusCode())
+                .isEqualTo(HttpStatusCode.valueOf(201));
+
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation()
+                .getPath().split("/");
+
+        //The UUID is the 4th element in the array
+        UUID savedUUID = UUID.fromString(locationUUID[4]);
+
+        Beer beer = beerRepository.findById(savedUUID).get();
+        assertThat(beer).isNotNull();
+
+    }
+
 
     @Test
     void testBeerNotFound() {
