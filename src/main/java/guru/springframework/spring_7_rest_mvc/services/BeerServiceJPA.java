@@ -5,7 +5,6 @@ package guru.springframework.spring_7_rest_mvc.services;
 Created by Zsolt Melich (BT - IVR team)
 */
 
-import guru.springframework.spring_7_rest_mvc.controller.NotFoundException;
 import guru.springframework.spring_7_rest_mvc.mappers.BeerMapper;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
 import guru.springframework.spring_7_rest_mvc.repositories.BeerRepository;
@@ -77,8 +76,13 @@ public class BeerServiceJPA implements BeerService {
     }
 
     @Override
-    public void deleteBeerById(UUID id) {
-
+    public Boolean deleteBeerById(UUID id) {
+        if (beerRepository.existsById(id))
+        {
+            beerRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

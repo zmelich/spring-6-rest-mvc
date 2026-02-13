@@ -32,6 +32,15 @@ class BeerControllerIT {
     @Autowired
     BeerMapper beerMapper;
 
+    @Test
+    void testDeleteBeerByIdNotFound()
+    {
+        /*Here it is enough to pass an empty BeerDTO object.*/
+        assertThrows(NotFoundException.class, () -> beerController.deleteBeerById(UUID.randomUUID()));
+
+    }
+
+
     @Transactional
     @Rollback
     @Test
