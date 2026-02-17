@@ -86,7 +86,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomerById(UUID customerId, CustomerDTO customer) {
+    public Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customer) {
         CustomerDTO existingCustomer = customerMap.get(customerId);
 
         existingCustomer.setCustomerName(customer.getCustomerName());
@@ -94,21 +94,28 @@ public class CustomerServiceImpl implements CustomerService {
 
         //We don't need this line actually - the app is still working without it
         //customerMap.put(existingCustomer.getId(),existingCustomer);
+
+        return Optional.of(existingCustomer);
     }
 
     @Override
-    public void deleteCustomerById(UUID customerId) {
+    public Boolean deleteCustomerById(UUID customerId) {
+
         customerMap.remove(customerId);
+
+        return true;
     }
 
     @Override
-    public void patchCustomerById(UUID id, CustomerDTO customer) {
+    public Optional<CustomerDTO> patchCustomerById(UUID id, CustomerDTO customer) {
 
         CustomerDTO existingCust = customerMap.get(id);
 
         if (StringUtils.hasText(customer.getCustomerName())) {
             existingCust.setCustomerName(customer.getCustomerName());
         }
+
+        return Optional.of(existingCust);
 
     }
 

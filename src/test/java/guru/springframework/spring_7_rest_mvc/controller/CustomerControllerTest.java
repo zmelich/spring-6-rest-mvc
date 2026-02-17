@@ -88,6 +88,8 @@ public class CustomerControllerTest {
 
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
 
+        given(customerService.patchCustomerById(any(UUID.class), any(CustomerDTO.class))).willReturn(Optional.of(customer));
+
         Map<String,Object> customerMap = new HashMap<>();
         customerMap.put("customerName","New Customer Name");
 
@@ -103,13 +105,14 @@ public class CustomerControllerTest {
         assertThat(customer.getId()).isEqualTo(customerIdArgCaptor.getValue());
         assertThat(customerMap.get("customerName")).isEqualTo(customerObjectCaptor.getValue().getCustomerName());
 
-
     }
 
     @Test
     void testDeleteExistingCustomer() throws Exception{
 
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
+
+        given(customerService.deleteCustomerById(any(UUID.class))).willReturn(true);
 
         //mockMVC.perform(delete(CustomerController.CUSTOMER_PATH+"/"+customer.getId())
         mockMVC.perform(delete(CustomerController.CUSTOMER_PATH_ID, customer.getId())
@@ -126,6 +129,8 @@ public class CustomerControllerTest {
     void testUpdateExistingCustomer() throws Exception{
 
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
+
+        given(customerService.updateCustomerById(any(UUID.class), any(CustomerDTO.class))).willReturn(Optional.of(customer));
 
         //mockMVC.perform(put(CustomerController.CUSTOMER_PATH+"/"+ customer.getId())
         mockMVC.perform(put(CustomerController.CUSTOMER_PATH_ID, customer.getId())

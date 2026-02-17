@@ -127,32 +127,34 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void patchBeerById(UUID beerId, BeerDTO beer) {
+    public Optional<BeerDTO> patchBeerById(UUID beerId, BeerDTO beerDTO) {
         BeerDTO existing = beerMap.get(beerId);
 
-        if (StringUtils.hasText(beer.getBeerName())){
-            existing.setBeerName(beer.getBeerName());
+        if (StringUtils.hasText(beerDTO.getBeerName())){
+            existing.setBeerName(beerDTO.getBeerName());
         }
 
-        if (beer.getBeerStyle() != null){
-            existing.setBeerStyle(beer.getBeerStyle());
+        if (beerDTO.getBeerStyle() != null){
+            existing.setBeerStyle(beerDTO.getBeerStyle());
         }
 
-        if (beer.getPrice() != null){
-            existing.setPrice(beer.getPrice());
+        if (beerDTO.getPrice() != null){
+            existing.setPrice(beerDTO.getPrice());
         }
 
-        if (beer.getQuantityOnHand() != null){
-            existing.setQuantityOnHand(beer.getQuantityOnHand());
+        if (beerDTO.getQuantityOnHand() != null){
+            existing.setQuantityOnHand(beerDTO.getQuantityOnHand());
         }
 
-        if (beer.getUpc() != null){
-            existing.setUpc(beer.getUpc());
+        if (beerDTO.getUpc() != null){
+            existing.setUpc(beerDTO.getUpc());
         }
 
-        if (StringUtils.hasText(beer.getUpc())) {
-            existing.setUpc(beer.getUpc());
+        if (StringUtils.hasText(beerDTO.getUpc())) {
+            existing.setUpc(beerDTO.getUpc());
         }
+
+        return Optional.of(existing);
 
     }
 }
