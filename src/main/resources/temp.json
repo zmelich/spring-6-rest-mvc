@@ -1,0 +1,52 @@
+[
+  {
+    "objectName": "beerDTO",
+    "field": "beerName",
+    "rejectedValue": null,
+    "codes": [
+      "NotBlank.beerDTO.beerName",
+      "NotBlank.beerName",
+      "NotBlank.java.lang.String",
+      "NotBlank"
+    ],
+    "arguments": [
+      {
+        "arguments": null,
+        "code": "beerName",
+        "codes": [
+          "beerDTO.beerName",
+          "beerName"
+        ],
+        "defaultMessage": "beerName"
+      }
+    ],
+    "bindingFailure": false,
+    "code": "NotBlank",
+    "defaultMessage": "must not be blank"
+  },
+  {
+    "objectName": "beerDTO",
+    "field": "beerName",
+    "rejectedValue": null,
+    "codes": [
+      "NotNull.beerDTO.beerName",
+      "NotNull.beerName",
+      "NotNull.java.lang.String",
+      "NotNull"
+    ],
+    "arguments": [
+      {
+        "arguments": null,
+        "code": "beerName",
+        "codes": [
+          "beerDTO.beerName",
+          "beerName"
+        ],
+        "defaultMessage": "beerName"
+      }
+    ],
+    "bindingFailure": false,
+    "code": "NotNull",
+    "defaultMessage": "must not be null"
+  }
+]
