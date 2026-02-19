@@ -6,8 +6,7 @@ Created by Zsolt Melich (BT - IVR team)
 */
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Builder;
@@ -37,15 +36,20 @@ public class BeerDTO {
     @JsonProperty("beerName")
     private String beerName;
 
+    @NotNull
     @JsonProperty("beerStyle")
     private BeerStyle beerStyle;
 
+    @NotNull
+    @NotBlank
     @JsonProperty("upc")
     private String upc;
 
     @JsonProperty("quantityOnHand")
     private Integer quantityOnHand;
 
+    @NotNull
+    @Positive
     @JsonProperty("price")
     private BigDecimal price;
 

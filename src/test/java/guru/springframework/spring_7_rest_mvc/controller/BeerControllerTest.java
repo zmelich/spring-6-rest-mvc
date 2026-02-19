@@ -3,6 +3,7 @@ package guru.springframework.spring_7_rest_mvc.controller;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //Reimporting ObjectMapper
 import guru.springframework.spring_7_rest_mvc.entities.Beer;
+import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import org.springframework.test.web.servlet.MvcResult;
 import tools.jackson.databind.ObjectMapper;
 
@@ -34,6 +35,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -74,9 +76,329 @@ class BeerControllerTest {
     }
 
     @Test
+    void testUpdateBeerByIdNullUpc() throws Exception
+    {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        BeerDTO updatedBeerNullName = BeerDTO.builder()
+                .version(null)
+                .id(null)
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .price(new BigDecimal(2.90))
+                .quantityOnHand(beer.getQuantityOnHand())
+                .build();
+
+
+        MvcResult mvcResult = mockMVC.perform(put(BeerController.BEER_PATH_ID,beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBeerNullName)))
+                .andExpect(jsonPath("$.length()",is(2)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        /*We need to comment this code. We don't need to and we cannot verify that the beerService.updateBeerById() is invoked
+        because it won't happen due to the failed validation!
+        The validation was done in the Controller before the app would went to the service (which is good!)*/
+        //verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testUpdateBeerByIdNegativePrice() throws Exception
+    {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        BeerDTO updatedBeerNullName = BeerDTO.builder()
+                .version(null)
+                .id(null)
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .price(new BigDecimal(-2.43))
+                .upc(beer.getUpc())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .build();
+
+
+        MvcResult mvcResult = mockMVC.perform(put(BeerController.BEER_PATH_ID,beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBeerNullName)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        /*We need to comment this code. We don't need to and we cannot verify that the beerService.updateBeerById() is invoked
+        because it won't happen due to the failed validation!
+        The validation was done in the Controller before the app would went to the service (which is good!)*/
+        //verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testUpdateBeerByIdZeroPrice() throws Exception
+    {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        BeerDTO updatedBeerNullName = BeerDTO.builder()
+                .version(null)
+                .id(null)
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .price(new BigDecimal(0))
+                .upc(beer.getUpc())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .build();
+
+
+        MvcResult mvcResult = mockMVC.perform(put(BeerController.BEER_PATH_ID,beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBeerNullName)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        /*We need to comment this code. We don't need to and we cannot verify that the beerService.updateBeerById() is invoked
+        because it won't happen due to the failed validation!
+        The validation was done in the Controller before the app would went to the service (which is good!)*/
+        //verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testUpdateBeerByIdNullPrice() throws Exception
+    {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        BeerDTO updatedBeerNullName = BeerDTO.builder()
+                .version(null)
+                .id(null)
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .upc(beer.getUpc())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .build();
+
+
+        MvcResult mvcResult = mockMVC.perform(put(BeerController.BEER_PATH_ID,beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBeerNullName)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        /*We need to comment this code. We don't need to and we cannot verify that the beerService.updateBeerById() is invoked
+        because it won't happen due to the failed validation!
+        The validation was done in the Controller before the app would went to the service (which is good!)*/
+        //verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testUpdateBeerByIdNullBeerStyle() throws Exception
+    {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        BeerDTO updatedBeerNullName = BeerDTO.builder()
+                .version(null)
+                .id(null)
+                .beerName(beer.getBeerName())
+                .price(beer.getPrice())
+                .upc(beer.getUpc())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .build();
+
+
+        MvcResult mvcResult = mockMVC.perform(put(BeerController.BEER_PATH_ID,beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBeerNullName)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        /*We need to comment this code. We don't need to and we cannot verify that the beerService.updateBeerById() is invoked
+        because it won't happen due to the failed validation!
+        The validation was done in the Controller before the app would went to the service (which is good!)*/
+        //verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+
+    @Test
+    void testUpdateBeerByIdNullBeerName() throws Exception
+    {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        BeerDTO updatedBeerNullName = BeerDTO.builder()
+                .version(null)
+                .id(null)
+                .beerStyle(beer.getBeerStyle())
+                .price(beer.getPrice())
+                .upc(beer.getUpc())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .build();
+
+
+        MvcResult mvcResult = mockMVC.perform(put(BeerController.BEER_PATH_ID,beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBeerNullName)))
+                .andExpect(jsonPath("$.length()",is(2)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        /*We need to comment this code. We don't need to and we cannot verify that the beerService.updateBeerById() is invoked
+        because it won't happen due to the failed validation!
+        The validation was done in the Controller before the app would went to the service (which is good!)*/
+        //verify(beerService).updateBeerById(beerIdArgCaptor.capture(),beerObjectCaptor.capture());
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+
+    @Test
+    void testCreateNewBeerNullBeerStyle() throws Exception
+    {
+        BeerDTO beerDTO = BeerDTO.builder()
+                .beerName("Test BeerName")
+                .upc("upc")
+                .price(new BigDecimal(11.25))
+                .id(null)
+                .version(null)
+                .build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+
+        MvcResult mvcResult = mockMVC.perform(post(BeerController.BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testCreateNewBeerNullBeerUpc() throws Exception
+    {
+        BeerDTO beerDTO = BeerDTO.builder()
+                .beerName("Test BeerName")
+                .beerStyle(BeerStyle.LAGER)
+                .price(new BigDecimal(11.25))
+                .id(null)
+                .version(null)
+                .build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+
+        MvcResult mvcResult = mockMVC.perform(post(BeerController.BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(jsonPath("$.length()",is(2)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testCreateNewBeerNegativeBeerPrice() throws Exception
+    {
+        BeerDTO beerDTO = BeerDTO.builder()
+                .beerName("Test BeerName")
+                .beerStyle(BeerStyle.LAGER)
+                .price(new BigDecimal(-2.00))
+                .upc("upc")
+                .id(null)
+                .version(null)
+                .build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+
+        MvcResult mvcResult = mockMVC.perform(post(BeerController.BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testCreateNewBeerZeroBeerPrice() throws Exception
+    {
+        BeerDTO beerDTO = BeerDTO.builder()
+                .beerName("Test BeerName")
+                .beerStyle(BeerStyle.LAGER)
+                .price(new BigDecimal(0))
+                .upc("upc")
+                .id(null)
+                .version(null)
+                .build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+
+        MvcResult mvcResult = mockMVC.perform(post(BeerController.BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testCreateNewBeerNullBeerPrice() throws Exception
+    {
+        BeerDTO beerDTO = BeerDTO.builder()
+                .beerName("Test BeerName")
+                .beerStyle(BeerStyle.LAGER)
+                .upc("upc")
+                .id(null)
+                .version(null)
+                .build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
+
+        MvcResult mvcResult = mockMVC.perform(post(BeerController.BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
     void testCreateBeerNullBeerName() throws Exception{
 
-        BeerDTO beerDTO = BeerDTO.builder().build();
+        //BeerDTO beerDTO = BeerDTO.builder().build();
+        BeerDTO beerDTO = BeerDTO.builder()
+                .price(new BigDecimal(8.21))
+                .beerStyle(BeerStyle.PILSNER)
+                .upc("upc")
+                .id(null)
+                .version(null)
+                .build();
 
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
 
