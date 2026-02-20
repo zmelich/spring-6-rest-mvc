@@ -28,7 +28,12 @@ class BeerRepositoryTest {
     void testSaveBeer() {
         Beer savedBeer = beerRepository.save(Beer.builder()
                         .beerName("Asahi Super Dry")
+                        .beerStyle(BeerStyle.PORTER)
+                        .upc("SomeUpc")
+                        .price(new BigDecimal(11.99))
                 .build());
+
+        beerRepository.flush();
 
         assertThat(savedBeer).isNotNull();
         assertThat(savedBeer.getId()).isNotNull();
