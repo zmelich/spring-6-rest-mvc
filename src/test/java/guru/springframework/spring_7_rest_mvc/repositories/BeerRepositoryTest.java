@@ -4,6 +4,7 @@ import guru.springframework.spring_7_rest_mvc.entities.Beer;
 import guru.springframework.spring_7_rest_mvc.entities.Customer;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -23,6 +24,23 @@ class BeerRepositoryTest {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Test
+    void testSaveBeerBeerNameTooLong() {
+
+        assertThrows(ConstraintViolationException.class, () -> {
+            Beer savedBeer = beerRepository.save(Beer.builder()
+                    .beerName("Asahi Super Dry with a very very very long name to test validation")
+                    .beerStyle(BeerStyle.PORTER)
+                    .upc("SomeUpc")
+                    .price(new BigDecimal(11.99))
+                    .build());
+
+            beerRepository.flush();
+        });
+
+
+    }
 
     @Test
     void testSaveBeer() {
