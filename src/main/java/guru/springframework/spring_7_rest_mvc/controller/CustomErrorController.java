@@ -5,6 +5,7 @@ package guru.springframework.spring_7_rest_mvc.controller;
 Created by Zsolt Melich (BT - IVR team)
 */
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,25 @@ public class CustomErrorController {
     @ExceptionHandler(TransactionSystemException.class)
     ResponseEntity handleJPAViolations(TransactionSystemException exception)
     {
-        return ResponseEntity.badRequest().build();
+        ResponseEntity.BodyBuilder responseEntity = ResponseEntity.badRequest();
+
+        if (exception.getCause().getCause() instanceof ConstraintViolationException)
+        {
+            ConstraintViolationException ve = (ConstraintViolationException) exception.getCause().getCause();
+
+            List errors = ve.getConstraintViolations().stream()
+                    .map(constraintViolation -> {
+                        Map<String,String> errMap = new HashMap<>();
+                        errMap.put(constraintViolation.getPropertyPath().toString(),
+                            constraintViolation.getMessage());
+                        return errMap;
+                    }).collect(Collectors.toList());
+
+            return responseEntity.body(errors);
+        }
+
+        return responseEntity.build();
+        //return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

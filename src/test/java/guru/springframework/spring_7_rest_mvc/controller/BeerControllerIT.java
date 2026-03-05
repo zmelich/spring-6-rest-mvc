@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
@@ -23,11 +24,13 @@ import tools.jackson.databind.ObjectMapper;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -64,12 +67,15 @@ class BeerControllerIT {
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName","A fantastic tasty new beer with a very very very long name to test validation");
 
-        mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+        MvcResult mvcResult =  mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()",is(1)))
+                .andReturn();
 
+        System.out.println(mvcResult.getResponse().getContentAsString());
 
     }
 
