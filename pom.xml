@@ -185,7 +185,7 @@
                 <version>3.5.4</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
-                    <!-- If you want to
+                    <!-- If you want to skip unit tests during the build, uncomment the following line -->
                    <!-- <skipTests>true</skipTests> -->
                 </configuration>
             </plugin>
