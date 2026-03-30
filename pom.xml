@@ -19,6 +19,13 @@
 	<properties>
 		<java.version>25</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
+
+        <releases.repository.url>https://nexusrepo.aws.mobius.nat.bt.com/networks/repository/APP08013_CCAD_Cloud-Contact-Application-Development_maven_releases/</releases.repository.url>
+        <releases.repository.id>APP08013_CCAD_Cloud-Contact-Application-Development_maven_releases</releases.repository.id>
+        <releases.repository.name>APP08013_CCAD_Cloud-Contact-Application-Development_maven_releases</releases.repository.name>
+        <snapshots.repository.url>https://nexusrepo.aws.mobius.nat.bt.com/networks/repository/APP08013_CCAD_Cloud-Contact-Application-Development_maven_snapshots/</snapshots.repository.url>
+        <snapshots.repository.id>APP08013_CCAD_Cloud-Contact-Application-Development_maven_snapshots</snapshots.repository.id>
+        <snapshots.repository.name>APP08013_CCAD_Cloud-Contact-Application-Development_maven_snapshots</snapshots.repository.name>
 	</properties>
 
 <dependencies>
@@ -119,6 +126,13 @@
             <artifactId>testcontainers-mysql</artifactId>
             <scope>test</scope>
         </dependency>
+
+    <dependency>
+        <groupId>com.opencsv</groupId>
+        <artifactId>opencsv</artifactId>
+        <version>5.12.0</version>
+        <scope>compile</scope>
+    </dependency>
 
 
 	</dependencies>
