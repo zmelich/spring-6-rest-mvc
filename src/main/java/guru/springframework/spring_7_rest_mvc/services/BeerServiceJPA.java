@@ -5,6 +5,7 @@ package guru.springframework.spring_7_rest_mvc.services;
 Created by Zsolt Melich (BT - IVR team)
 */
 
+import guru.springframework.spring_7_rest_mvc.entities.Beer;
 import guru.springframework.spring_7_rest_mvc.mappers.BeerMapper;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
 import guru.springframework.spring_7_rest_mvc.repositories.BeerRepository;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,11 +31,31 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     public List<BeerDTO> listBeers(String beerName) {
-        //return List.of();
-        return beerRepository.findAll()
+
+        List<Beer> beerList;
+
+        if (StringUtils.hasText("beerName")) {
+            beerList = listBeersByName(beerName);
+        }
+        else
+        {
+            beerList =  beerRepository.findAll();
+        }
+
+        return beerList
                 .stream()
                 .map(beerMapper::beerToBeerDto)
                 .collect(Collectors.toList());
+
+        /* Original - before query params
+        return beerRepository.findAll()
+                .stream()
+                .map(beerMapper::beerToBeerDto)
+                .collect(Collectors.toList());*/
+    }
+
+    List<Beer> listBeersByName(String beerName){
+        return new ArrayList<>();
     }
 
     @Override
