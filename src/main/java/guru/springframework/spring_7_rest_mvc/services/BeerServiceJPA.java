@@ -5,7 +5,6 @@ package guru.springframework.spring_7_rest_mvc.services;
 Created by Zsolt Melich (BT - IVR team)
 */
 
-import guru.springframework.spring_7_rest_mvc.entities.Beer;
 import guru.springframework.spring_7_rest_mvc.mappers.BeerMapper;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
 import guru.springframework.spring_7_rest_mvc.repositories.BeerRepository;
@@ -29,7 +28,7 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers() {
+    public List<BeerDTO> listBeers(String beerName) {
         //return List.of();
         return beerRepository.findAll()
                 .stream()
