@@ -8,6 +8,7 @@ Created by Zsolt Melich (BT - IVR team)
 import guru.springframework.spring_7_rest_mvc.entities.Beer;
 import guru.springframework.spring_7_rest_mvc.mappers.BeerMapper;
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
+import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import guru.springframework.spring_7_rest_mvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -30,7 +31,7 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers(String beerName) {
+    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle) {
 
         List<Beer> beerList;
 
@@ -39,7 +40,14 @@ public class BeerServiceJPA implements BeerService {
         }
         else
         {
-            beerList =  beerRepository.findAll();
+            if (beerStyle != null && StringUtils.hasText(beerStyle.toString()))
+            {
+                beerList = listBeersByStyle(beerStyle);
+            }
+            else{
+                beerList =  beerRepository.findAll();
+            }
+
         }
 
         return beerList
@@ -56,6 +64,11 @@ public class BeerServiceJPA implements BeerService {
 
     List<Beer> listBeersByName(String beerName){
         return new ArrayList<>(beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%"));
+    }
+
+    List<Beer> listBeersByStyle(BeerStyle beerStyle)
+    {
+        return new ArrayList<>(beerRepository.findAllByBeerStyleEquals(beerStyle));
     }
 
     @Override

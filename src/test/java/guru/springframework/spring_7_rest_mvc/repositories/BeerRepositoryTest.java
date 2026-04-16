@@ -2,8 +2,6 @@ package guru.springframework.spring_7_rest_mvc.repositories;
 
 import guru.springframework.spring_7_rest_mvc.bootstrap.BootStrapData;
 import guru.springframework.spring_7_rest_mvc.entities.Beer;
-import guru.springframework.spring_7_rest_mvc.entities.Customer;
-import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import guru.springframework.spring_7_rest_mvc.services.BeerCsvServiceImpl;
 import jakarta.validation.ConstraintViolationException;
@@ -13,11 +11,7 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +22,15 @@ class BeerRepositoryTest {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Test
+    void testGetBeerListByStyle(){
+
+        BeerStyle beerStyle = BeerStyle.LAGER;
+        List<Beer> list = beerRepository.findAllByBeerStyleEquals(beerStyle);
+
+        assertThat(list.size()).isEqualTo(39);
+    }
 
     @Test
     void testGetBeerListByName() {

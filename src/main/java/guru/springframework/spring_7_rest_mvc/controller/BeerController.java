@@ -6,6 +6,7 @@ Created by Zsolt Melich (BT - IVR team)
 */
 
 import guru.springframework.spring_7_rest_mvc.model.BeerDTO;
+import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
 import guru.springframework.spring_7_rest_mvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,9 +89,9 @@ public class BeerController {
     //@RequestMapping("/api/v1/beer")
     //@RequestMapping(method = RequestMethod.GET)
     @GetMapping(BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam (required = false) String beerName)
+    public List<BeerDTO> listBeers(@RequestParam (required = false) String beerName, @RequestParam (required = false) BeerStyle beerStyle)
     {
-        return beerService.listBeers(beerName);
+        return beerService.listBeers(beerName, beerStyle);
     }
 
     //@RequestMapping(value = "{beerId}", method = RequestMethod.GET)
