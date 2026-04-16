@@ -35,19 +35,17 @@ public class BeerServiceJPA implements BeerService {
 
         List<Beer> beerList;
 
-        if (StringUtils.hasText(beerName)) {
+        if (StringUtils.hasText(beerName) && beerStyle == null) {
             beerList = listBeersByName(beerName);
         }
-        else
-        {
-            if (beerStyle != null && StringUtils.hasText(beerStyle.toString()))
+        else{
+            if (!StringUtils.hasText(beerName) && beerStyle != null)
             {
                 beerList = listBeersByStyle(beerStyle);
             }
             else{
                 beerList =  beerRepository.findAll();
             }
-
         }
 
         return beerList
@@ -68,7 +66,7 @@ public class BeerServiceJPA implements BeerService {
 
     List<Beer> listBeersByStyle(BeerStyle beerStyle)
     {
-        return new ArrayList<>(beerRepository.findAllByBeerStyleEquals(beerStyle));
+        return new ArrayList<>(beerRepository.findAllByBeerStyle(beerStyle));
     }
 
     @Override

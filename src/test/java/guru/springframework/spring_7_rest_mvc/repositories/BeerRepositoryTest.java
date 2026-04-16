@@ -26,10 +26,10 @@ class BeerRepositoryTest {
     @Test
     void testGetBeerListByStyle(){
 
-        BeerStyle beerStyle = BeerStyle.LAGER;
-        List<Beer> list = beerRepository.findAllByBeerStyleEquals(beerStyle);
+        BeerStyle beerStyle = BeerStyle.IPA;
+        List<Beer> list = beerRepository.findAllByBeerStyle(beerStyle);
 
-        assertThat(list.size()).isEqualTo(39);
+        assertThat(list.size()).isEqualTo(548);
     }
 
     @Test
