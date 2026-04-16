@@ -89,9 +89,13 @@ public class BeerController {
     //@RequestMapping("/api/v1/beer")
     //@RequestMapping(method = RequestMethod.GET)
     @GetMapping(BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam (required = false) String beerName, @RequestParam (required = false) BeerStyle beerStyle, @RequestParam (required = false) Boolean showInventoryOnHand)
+    public List<BeerDTO> listBeers(@RequestParam (required = false) String beerName,
+                                   @RequestParam (required = false) BeerStyle beerStyle,
+                                   @RequestParam (required = false) Boolean showInventoryOnHand,
+                                   @RequestParam (required = false) Integer pageNumber,
+                                   @RequestParam (required = false) Integer pageSize)
     {
-        return beerService.listBeers(beerName, beerStyle, showInventoryOnHand);
+        return beerService.listBeers(beerName, beerStyle, showInventoryOnHand, 1, 25);
     }
 
     //@RequestMapping(value = "{beerId}", method = RequestMethod.GET)
