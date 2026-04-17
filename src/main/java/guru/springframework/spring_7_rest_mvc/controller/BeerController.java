@@ -95,7 +95,7 @@ public class BeerController {
                                    @RequestParam (required = false) Integer pageNumber,
                                    @RequestParam (required = false) Integer pageSize)
     {
-        return beerService.listBeers(beerName, beerStyle, showInventoryOnHand, 1, 25);
+        return beerService.listBeers(beerName, beerStyle, showInventoryOnHand, pageNumber, pageSize);
     }
 
     //@RequestMapping(value = "{beerId}", method = RequestMethod.GET)
