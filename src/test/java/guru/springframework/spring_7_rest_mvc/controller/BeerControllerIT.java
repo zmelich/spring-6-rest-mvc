@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,8 +69,8 @@ class BeerControllerIT {
                         .queryParam(   "pageSize", "50")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()",is(50)))
-                .andExpect(jsonPath("$[0].quantityOnHand").value(IsNull.notNullValue()));
+                .andExpect(jsonPath("$.content.size()",is(50)))
+                .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.notNullValue()));
     }
 
     @Test
@@ -78,10 +79,11 @@ class BeerControllerIT {
                         .queryParam("beerName", "IPA")
                         .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("showInventoryOnHand", "true")
+                        .queryParam("pageSize","800")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()",is(310)))
-                .andExpect(jsonPath("$[0].quantityOnHand").value(IsNull.notNullValue()));
+                .andExpect(jsonPath("$.content.size()",is(310)))
+                .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.notNullValue()));
     }
 
     @Test
@@ -90,10 +92,11 @@ class BeerControllerIT {
                         .queryParam("beerName", "IPA")
                         .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("showInventoryOnHand", "false")
+                        .queryParam("pageSize","800")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()",is(310)))
-                .andExpect(jsonPath("$[0].quantityOnHand").value(IsNull.nullValue()));
+                .andExpect(jsonPath("$.content.size()",is(310)))
+                .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.nullValue()));
     }
 
 
@@ -101,25 +104,29 @@ class BeerControllerIT {
     void testListBeersByNameAndStyle() throws Exception {
         mockMvc.perform(get(BeerController.BEER_PATH)
                 .queryParam("beerName", "IPA")
-                .queryParam("beerStyle", BeerStyle.IPA.name()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()",is(310)));
+                .queryParam("beerStyle", BeerStyle.IPA.name())
+                .queryParam("pageSize","800")
+                )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.size()",is(310)));
     }
 
     @Test
     void testListBeersByStyle() throws Exception {
         mockMvc.perform(get(BeerController.BEER_PATH)
-                .queryParam("beerStyle", BeerStyle.IPA.name()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()",is(548)));
+                .queryParam("beerStyle", BeerStyle.IPA.name())
+                .queryParam("pageSize","800"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.size()",is(548)));
     }
 
     @Test
     void testListBeersByName() throws Exception {
         mockMvc.perform(get(BeerController.BEER_PATH)
-                .queryParam("beerName", "IPA"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()",is(336)));
+                .queryParam("beerName", "IPA")
+                .queryParam("pageSize","800"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.size()",is(336)));
     }
 
 
@@ -269,9 +276,9 @@ class BeerControllerIT {
 
     @Test
     void testListBeers() {
-        List<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
+        Page<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 2413);
 
-        assertThat(dtos.size()).isEqualTo(2413);
+        assertThat(dtos.getContent().size()).isEqualTo(1000);
     }
 
     @Transactional
@@ -279,8 +286,8 @@ class BeerControllerIT {
     @Test
     void testEmptyList() {
         beerRepository.deleteAll();
-        List<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
+        Page<BeerDTO> dtos = beerController.listBeers(null, null, false, 1, 25);
 
-        assertThat(dtos.size()).isEqualTo(0);
+        assertThat(dtos.getContent().size()).isEqualTo(0);
     }
 }
