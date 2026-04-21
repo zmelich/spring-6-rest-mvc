@@ -503,13 +503,13 @@ class BeerControllerTest {
 
     @Test
     void testListBeers() throws Exception {
-        given(beerService.listBeers(any(), any(), any(), any(), any())).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25));
+        given(beerService.listBeers(any(), any(), any(), any(), any())).willReturn(beerServiceImpl.listBeers(null, null, false, null, null));
 
         mockMVC.perform(get(BeerController.BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(3)));
+                .andExpect(jsonPath("$.content.length()", is(3)));
     }
 
 
