@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -103,7 +104,14 @@ public class BeerServiceJPA implements BeerService {
 
          }
 
-         return PageRequest.of(queryPageNumber, queryPageSize);
+
+        Sort sort = Sort.by(Sort.Order.asc("beerName"));
+
+         // This should also work!
+        //Sort sort = Sort.by(Sort.Direction.ASC, "beerName");
+
+
+         return PageRequest.of(queryPageNumber, queryPageSize, sort);
         }
 
     public Page<Beer> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Pageable pageable) {
