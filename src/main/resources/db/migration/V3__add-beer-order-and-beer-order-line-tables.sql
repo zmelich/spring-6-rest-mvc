@@ -5,8 +5,9 @@ drop table if exists beer_order_line;
 create table beer_order(
     id varchar(36) not null,
     created_date datetime(6) default null,
+    customer_ref       varchar(255) DEFAULT NULL,
     last_modified_date datetime(6) default null,
-    version integer default null,
+    version bigint default null,
     customer_id varchar(36) default null,
     constraint primary key (id),
     constraint foreign key (customer_id) references customer(id)
@@ -18,7 +19,7 @@ create table beer_order_line(
     last_modified_date datetime(6) default null,
     order_quantity integer default null,
     quantity_allocated integer default null,
-    version integer default null,
+    version bigint default null,
     beer_order_id varchar(36) default null,
     beer_id varchar(36) not null,
     constraint primary key (id),

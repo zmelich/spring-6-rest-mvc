@@ -1,30 +1,27 @@
 package guru.springframework.spring_7_rest_mvc.entities;
 
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
-
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 /*
 Created by Zsolt Melich (BT - IVR team)
 */
-
 @Builder
-//@Data - We should not use it with entities
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
-
+public class BeerOrder {
     @Id
     @GeneratedValue(generator = "UUID")
     @UuidGenerator
@@ -35,14 +32,16 @@ public class Customer {
     @Version
     private Integer version;
 
-    @Column(length = 255)
-    private String email;
-
-    private String customerName;
+    @CreationTimestamp
+    @Column(updatable=false)
     private LocalDateTime createdDate;
-    private LocalDateTime updateDate;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<BeerOrder> beerOrders;
+    @UpdateTimestamp
+    private LocalDateTime lastModifiedDate;
+
+    private String customerRef;
+
+    @ManyToOne
+    private Customer customer;
 
 }
