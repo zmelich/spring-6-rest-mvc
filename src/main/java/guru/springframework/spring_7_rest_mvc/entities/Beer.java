@@ -6,12 +6,8 @@ Created by Zsolt Melich (BT - IVR team)
 */
 
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -25,6 +21,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Builder
@@ -69,4 +66,7 @@ public class Beer {
 
     @UpdateTimestamp
     private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "beer")
+    private Set<BeerOrderLine> beerOrderLines;
 }

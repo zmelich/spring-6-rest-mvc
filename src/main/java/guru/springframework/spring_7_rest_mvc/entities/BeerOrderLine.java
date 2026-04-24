@@ -10,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.UUID;
 
 /*
@@ -46,5 +47,11 @@ public class BeerOrderLine {
 
     private Integer orderQuantity = 0;
     private Integer quantityAllocated = 0;
+
+    @ManyToOne
+    private BeerOrder beerOrder;
+
+    @ManyToOne
+    private Beer beer;
 
 }
