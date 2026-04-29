@@ -20,9 +20,20 @@ Created by Zsolt Melich (BT - IVR team)
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class BeerOrder {
+
+    public BeerOrder(UUID id, Integer version, LocalDateTime createdDate, LocalDateTime lastModifiedDate, String customerRef, Customer customer, Set<BeerOrderLine> beerOrderLines) {
+        this.id = id;
+        this.version = version;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+        this.customerRef = customerRef;
+        this.setCustomer(customer);
+        this.beerOrderLines = beerOrderLines;
+    }
+
     @Id
     @GeneratedValue(generator = "UUID")
     @UuidGenerator
@@ -41,6 +52,11 @@ public class BeerOrder {
     private LocalDateTime lastModifiedDate;
 
     private String customerRef;
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        customer.getBeerOrders().add(this);
+    }
 
     @ManyToOne
     private Customer customer;
