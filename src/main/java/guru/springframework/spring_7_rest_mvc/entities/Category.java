@@ -11,6 +11,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import java.util.UUID;
 Created by Zsolt Melich (BT - IVR team)
 */
 
+@Builder
 @Getter
 @Setter
 @Entity
@@ -46,10 +48,11 @@ public class Category {
     private String description;
 
     @ManyToMany
+    @Builder.Default
     @JoinTable(name= "beer_category",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "beer_id"))
-    private Set<Beer> beers;
+    private Set<Beer> beers = new HashSet<>();
 
     @Override
     public int hashCode() {
