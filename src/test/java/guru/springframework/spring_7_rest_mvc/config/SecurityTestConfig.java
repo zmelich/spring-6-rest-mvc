@@ -35,7 +35,7 @@ public class SecurityTestConfig {
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder enc) {
-        var user = User.withUsername("user")
+        var user = User.withUsername("user1")
                 .password(enc.encode("password"))
                 .roles("USER")
                 .build();
