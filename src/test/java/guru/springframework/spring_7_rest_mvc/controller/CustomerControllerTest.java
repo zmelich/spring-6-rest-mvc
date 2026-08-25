@@ -51,8 +51,7 @@ Created by Zsolt Melich (BT - IVR team)
 //@ExtendWith(MockitoExtension.class)
 @ExtendWith({ SpringExtension.class, MockitoExtension.class })
 @AutoConfigureMockMvc(addFilters = true)
-//@Import(guru.springframework.spring_7_rest_mvc.config.SecurityTestConfig.class)
-@Import(guru.springframework.spring_7_rest_mvc.config.SecurityConfig.class)
+@Import(guru.springframework.spring_7_rest_mvc.config.SecurityTestConfig.class)
 public class CustomerControllerTest {
 
     @Autowired

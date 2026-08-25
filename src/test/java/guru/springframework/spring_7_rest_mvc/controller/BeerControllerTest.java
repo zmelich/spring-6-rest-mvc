@@ -3,6 +3,7 @@ package guru.springframework.spring_7_rest_mvc.controller;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //Reimporting ObjectMapper
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -54,8 +55,7 @@ import java.util.UUID;
 //@ExtendWith(MockitoExtension.class)
 @ExtendWith({ SpringExtension.class, MockitoExtension.class })
 @AutoConfigureMockMvc(addFilters = true)
-//@Import(guru.springframework.spring_7_rest_mvc.config.SecurityTestConfig.class)
-@Import(guru.springframework.spring_7_rest_mvc.config.SecurityConfig.class)
+@Import(guru.springframework.spring_7_rest_mvc.config.SecurityTestConfig.class)
 class BeerControllerTest {
 
     //@Autowired
