@@ -3,6 +3,10 @@ package guru.springframework.spring_7_rest_mvc.controller;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //Reimporting ObjectMapper
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tools.jackson.databind.ObjectMapper;
 
 import guru.springframework.spring_7_rest_mvc.model.CustomerDTO;
@@ -44,7 +48,11 @@ Created by Zsolt Melich (BT - IVR team)
 
 //@ExtendWith added for newer version of Spring Boot. Without that intelliJ would not do things like autocomplete for Mockito
 @WebMvcTest(CustomerController.class)
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
+@ExtendWith({ SpringExtension.class, MockitoExtension.class })
+@AutoConfigureMockMvc(addFilters = true)
+//@Import(guru.springframework.spring_7_rest_mvc.config.SecurityTestConfig.class)
+@Import(guru.springframework.spring_7_rest_mvc.config.SecurityConfig.class)
 public class CustomerControllerTest {
 
     @Autowired
@@ -58,6 +66,23 @@ public class CustomerControllerTest {
     CustomerService customerService;
 
     CustomerServiceImpl customerServiceImpl;
+
+
+    @Autowired(required = false)
+    org.springframework.security.web.FilterChainProxy springSecurityFilterChain;
+
+    @Test
+    void securityFiltersLoaded(){
+        assertThat(springSecurityFilterChain).isNotNull();
+    }
+
+    @Autowired(required = false)
+    private HttpSecurity httpSecurity;
+
+    @Test
+    void checkHttpSecurityAvailability() {
+        System.out.println("HttpSecurity available: " + (httpSecurity != null));
+    }
 
     @BeforeEach
     void setUp()

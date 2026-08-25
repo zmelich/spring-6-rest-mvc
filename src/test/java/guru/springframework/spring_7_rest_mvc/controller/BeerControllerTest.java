@@ -3,6 +3,10 @@ package guru.springframework.spring_7_rest_mvc.controller;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //Reimporting ObjectMapper
 import guru.springframework.spring_7_rest_mvc.model.BeerStyle;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;
 import tools.jackson.databind.ObjectMapper;
 
@@ -20,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 //Reimport WebMvcTest
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+
+
 
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -43,8 +49,13 @@ import java.util.UUID;
 //@SpringBootTest
 
 //@ExtendWith added for newer version of Spring Boot. Without that intelliJ would not do things like autocomplete for Mockito
+//@org.springframework.boot.test.context.SpringBootTest
 @WebMvcTest(BeerController.class)
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
+@ExtendWith({ SpringExtension.class, MockitoExtension.class })
+@AutoConfigureMockMvc(addFilters = true)
+//@Import(guru.springframework.spring_7_rest_mvc.config.SecurityTestConfig.class)
+@Import(guru.springframework.spring_7_rest_mvc.config.SecurityConfig.class)
 class BeerControllerTest {
 
     //@Autowired
@@ -62,6 +73,23 @@ class BeerControllerTest {
 
     //BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
     BeerServiceImpl beerServiceImpl ;
+
+
+    @Autowired(required = false)
+    org.springframework.security.web.FilterChainProxy springSecurityFilterChain;
+
+    @Test
+    void securityFiltersLoaded(){
+        assertThat(springSecurityFilterChain).isNotNull();
+    }
+
+    @Autowired(required = false)
+    private HttpSecurity httpSecurity;
+
+    @Test
+    void checkHttpSecurityAvailability() {
+        System.out.println("HttpSecurity available: " + (httpSecurity != null));
+    }
 
     @Captor
     ArgumentCaptor<UUID> beerIdArgCaptor;
