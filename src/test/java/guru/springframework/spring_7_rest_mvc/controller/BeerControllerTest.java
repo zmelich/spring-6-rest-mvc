@@ -38,6 +38,7 @@ import static org.mockito.BDDMockito.given;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -312,6 +313,7 @@ class BeerControllerTest {
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(1));
 
         MvcResult mvcResult = mockMVC.perform(post(BeerController.BEER_PATH)
+                        .with(httpBasic("user1", "password"))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerDTO)))
@@ -446,7 +448,8 @@ class BeerControllerTest {
         //given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
         given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
 
-        mockMVC.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
+        mockMVC.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID())
+                .with(httpBasic("user1", "password")))
                 .andExpect(status().isNotFound());
     }
 
@@ -534,6 +537,7 @@ class BeerControllerTest {
         given(beerService.listBeers(any(), any(), any(), any(), any())).willReturn(beerServiceImpl.listBeers(null, null, false, null, null));
 
         mockMVC.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic("user1", "password"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -550,6 +554,7 @@ class BeerControllerTest {
 
         //mockMVC.perform(get(BeerController.BEER_PATH+"/" + testBeer.getId())
         mockMVC.perform(get(BeerController.BEER_PATH_ID,testBeer.getId())
+                .with(httpBasic("user1", "password"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

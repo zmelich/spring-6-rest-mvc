@@ -38,6 +38,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -102,7 +103,8 @@ public class CustomerControllerTest {
         //given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
         given(customerService.getCustomerById(any(UUID.class))).willReturn(Optional.empty());
 
-        mockMVC.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID()))
+        mockMVC.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID())
+                .with(httpBasic("user2", "password")))
                 .andExpect(status().isNotFound());
     }
 
@@ -194,6 +196,7 @@ public class CustomerControllerTest {
         given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
 
         mockMVC.perform(get(CustomerController.CUSTOMER_PATH)
+                        .with(httpBasic("user1", "password"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -209,6 +212,7 @@ public class CustomerControllerTest {
 
         //mockMVC.perform(get(CustomerController.CUSTOMER_PATH+"/" + testCustomer.getId())
         mockMVC.perform(get(CustomerController.CUSTOMER_PATH_ID, testCustomer.getId())
+                        .with(httpBasic("user1", "password"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
